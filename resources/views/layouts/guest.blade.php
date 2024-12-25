@@ -17,7 +17,7 @@
             } elseif (Route::currentRouteName() == 'verification.notice') {
                 $pageTitle = "Verifikasi Email";
             }  else {
-                # code...
+               return $pageTitle;
             }
 
         @endphp

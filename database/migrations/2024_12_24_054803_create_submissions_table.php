@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\User;
 
 return new class extends Migration
 {
@@ -13,6 +14,10 @@ return new class extends Migration
     {
         Schema::create('submissions', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(User::class)->default(2);
+            $table->string('event_type');
+            $table->date('event_date');
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }
