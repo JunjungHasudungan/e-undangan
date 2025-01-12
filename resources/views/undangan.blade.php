@@ -10,19 +10,10 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{-- start step-indicator --}}
                     <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
-                        <livewire:invitation.submission.step-indicator />
+                    {{ __('HALAMAN UNDANGAN') }}
                     </div>
                     {{-- end step-indicator --}}
                 </div>
-                {{-- <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
-                    <livewire:invitation.submission.form-create />
-                    </div> --}}
-            </div>
-
-            <div class="bg-white mt-2 dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
-                    <livewire:invitation.submission.form-create />
-               </div>
             </div>
         </div>
     </div>

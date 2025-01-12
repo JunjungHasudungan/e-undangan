@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('submissions', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->default(2);
-            $table->string('event_type');
+            $table->string('event_type')->default('wedding-party');
             $table->date('event_date');
             $table->string('status')->default('pending');
             $table->timestamps();
