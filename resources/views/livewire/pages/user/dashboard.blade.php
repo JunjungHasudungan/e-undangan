@@ -1,55 +1,45 @@
 <?php
 
+use Illuminate\Database\Eloquent\Collection;
 use Livewire\Volt\Component;
+use App\Models\Submission;
 
 new class extends Component {
-    public $isOpenFormSubmission = false;
-    public $name;
-    public $eventType = "";
-    public $eventDate = "";
-    public $status = "";
 
-    public function closeFormCreateSubmission() {
-        $this->isOpenFormSubmission = false;
+    public $userSubmission;
+    public $openFormSubmission = false;
+
+
+    public function mount(): void {
+        $this->userSubmission = Submission::where('user_id', auth()->id())->first();
     }
 
     public function createSubmission() {
-        $this->isOpenFormSubmission = true;
+        $this->openFormSubmission = true;
     }
 
-    public function submit() {
-        dd([
-            $this->eventType,
-            $this->name,
-            $this->eventDate
-        ]);
-    }
 }; ?>
 
 <div>
-
-    <!-- Modal toggle -->
-    <button  wire:click='createSubmission' class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-        Buat Pengajuan
-    </button>
-    @if ($isOpenFormSubmission)
-    <div>
-        <div id="crud-modal" class="overflow-y-auto fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-            <div class="relative p-4 w-full max-w-md max-h-full">
-                <!-- Modal content -->
-                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                    <!-- Modal header -->
-                    <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                            Pengajuan Undangan
-                        </h3>
-                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="crud-modal">
-                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                            </svg>
-                            <span class="sr-only">Close modal</span>
-                        </button>
+     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        @if ($userSubmission)
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+                            <livewire:invitation.submission.step-indicator />
                     </div>
+                </div>
+            </div>
+        @endif
+
+        <div id="vue-app" class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+
+            <!-- Modal toggle -->
+            <button   class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                @{{message}}
+            </button>
+                <!-- Modal content -->
+                <div class="relative bg-white mt-2 rounded-lg shadow dark:bg-gray-700">
                     <!-- Modal body -->
                     <form class="p-4 md:p-5">
                         <div class="grid gap-4 mb-4 grid-cols-2">
@@ -57,7 +47,7 @@ new class extends Component {
                                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
                                 <input
                                     type="text"
-                                    wire:model="name"
+                                    v-model="name"
                                     id="name"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                     placeholder="Type product name"
@@ -67,7 +57,7 @@ new class extends Component {
                                 <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
                                 <input
                                     type="text"
-                                    wire:model="name"
+                                    v-model="name"
                                     id="name"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                     placeholder="Type product name"
@@ -75,7 +65,7 @@ new class extends Component {
                             </div>
                             <div class="col-span-2 sm:col-span-1">
                                 <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                                <select wire:model="eventType" id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                <select v-model="eventType" id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                     <option selected="">Select category</option>
                                     <option value="TV">TV/Monitors</option>
                                     <option value="PC">PC</option>
@@ -94,21 +84,49 @@ new class extends Component {
                             </div>
                         </div>
                         <div class="flex gap-2">
-                            <button wire:click.prevent="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            <button @click.prevent="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
                                 Add new product
                             </button>
 
                             <button 
-                                wire:click="closeFormCreateSubmission" 
+                                @click="closeFormCreateSubmission" 
                                 class="text-white inline-flex items-center bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
                                 Cancel
                             </button>
                         </div>
                     </form>
                 </div>
-            </div>
+            {{-- <livewire:invitation.submission.form-create /> --}}
         </div>
     </div>
-    @endif
 </div>
+
+<script type="module">
+    import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+  
+    createApp({
+      setup() {
+        const message = ref('Hello Vue!');
+        const name = ref("");
+        const eventType = ref('');
+        const eventDate = ref('');
+
+        let closeFormCreateSubmission =()=> {
+            console.log('menutup')
+        }
+
+        function submit() {
+            console.log('tombol submit ditekan...')
+        }
+        return {
+            name,
+            eventType,
+            eventDate,
+            message,
+            closeFormCreateSubmission,
+            submit
+        }
+      }
+    }).mount('#vue-app')
+</script>

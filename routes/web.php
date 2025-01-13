@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
+use Livewire\Volt\Volt;
+use App\Http\Controllers\User\SubmissionController;
 
 Route::view('/', 'welcome');
 
@@ -14,7 +16,7 @@ Route::middleware(['auth', 'verified'])->group(function() {
     // ROUTE FOR ADMIN
     Route::get('admin-dashboard', [DashboardController::class, 'index'])->name('admin-dashboard');
 
-    Route::view('undangan', 'undangan')->name('undangan');
+    Route::get('getSubmmission/{userId}', [SubmissionController::class, 'getSubmissionByUser'])->name('');
 });
 Route::view('profile', 'profile')
     ->middleware(['auth'])

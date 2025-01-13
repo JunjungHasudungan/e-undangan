@@ -6,9 +6,18 @@ use App\Models\User;
 
 new class extends Component
 {
+    public $userSubmission;
     /**
      * Log the current user out of the application.
      */
+    public function mount(): void
+    {
+        $this->userSubmission = User::query()
+                            ->join('submissions', 'users.id', '=', 'submissions.user_id')
+                            ->where('users.id', auth()->id())
+                            ->select('submissions.*')
+                            ->first();
+    }
 
     public function logout(Logout $logout): void
     {
@@ -27,23 +36,16 @@ new class extends Component
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    @php
-                     $userSubmission = User::query()
-                            ->join('submissions', 'users.id', '=', 'submissions.user_id')
-                            ->where('users.id', auth()->id())
-                            ->select('submissions.*')
-                            ->first();
-                    @endphp
                     
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    @if ($userSubmission)
+                    {{-- @if ($userSubmission)
                         <x-nav-link :href="route('undangan')" :active="request()->routeIs('undangan')" wire:navigate>
                             {{ __('undangan') }}
                         </x-nav-link>
-                    @endif
+                    @endif --}}
                 </div>
             </div>
 
@@ -96,9 +98,9 @@ new class extends Component
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('undangan')" :active="request()->routeIs('undangan')" wire:navigate>
+            {{-- <x-responsive-nav-link :href="route('undangan')" :active="request()->routeIs('undangan')" wire:navigate>
                 {{ __('Undangan') }}
-            </x-responsive-nav-link>
+            </x-responsive-nav-link> --}}
         </div>
 
         <!-- Responsive Settings Options -->
