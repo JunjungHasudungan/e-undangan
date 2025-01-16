@@ -9,7 +9,7 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
         <!-- Scripts -->
-
+        <script src="https://cdn.jsdelivr.net/npm/yup@latest/dist/yup.min.js"></script>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireStyles
     </head>
@@ -35,5 +35,9 @@
         <script src="https://cdn.jsdelivr.net/npm/axios@1.7.9/dist/axios.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
         <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/yup@latest/dist/yup.min.js"></script>
+        <script type="module">
+            import yup from 'https://cdn.jsdelivr.net/npm/yup@1.6.1/+esm'
+            </script>
     </body>
 </html>
