@@ -8,7 +8,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
 
-                        <livewire:dashboard />
+                        <livewire:user.dashboard />
                         {{-- <ol class="flex items-center">
                             <li class="relative w-full mb-6">
                                 <div class="flex items-center">
@@ -161,72 +161,4 @@
             </div> --}}
         </div>
     </div>
-    <script>
-        const userId = @json(auth()->user()->id);
-    </script>
-        <script type="module">
-            import { createApp, ref, watch, onMounted, reactive  } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
-
-            createApp({
-                setup() {
-                    const message = ref('Hello Vue!');
-                    const name = ref("");
-                    const username = ref("");
-                    const email = ref("");
-                    const phoneNumber = ref("");
-                    const isOpenFormSubmission = ref(false);
-                    const eventType = ref("");
-                    const eventTime = ref("");
-                    const selectedDate = ref("");
-                    const userSubmission = ref([]);
-                    const categoryEvent = ref([
-                        "pernikahan",
-                        "ulan-tahun",
-                        "ulan-tahun-pernikahan",
-                        "penamatan"
-                    ]);
-
-                    onMounted(() => {
-                        getSubmissionByUserId()
-                    });
-
-                    const getSubmissionByUserId = async () => {
-                        try {
-                            const response = await axios.get(`getSubmmission/${userId}`);
-                            userSubmission.value = response.data.data;
-                        } catch (error) {
-
-                        }
-                    }
-
-                    const closeFormCreateSubmission =()=> {
-                        isOpenFormSubmission.value = false;
-                    }
-
-                    const formSubmission = () => {
-                        isOpenFormSubmission.value = true;
-                    }
-
-                    function sendSubmission() {
-                        console.log('data' + selectedDate.value)
-                    }
-                    return {
-                        isOpenFormSubmission,
-                        formSubmission,
-                        message,
-                        closeFormCreateSubmission,
-                        sendSubmission,
-
-                        username,
-                        email,
-                        phoneNumber,
-                        eventTime,
-                        eventType,
-                        userSubmission,
-                        categoryEvent,
-                        selectedDate,
-                    }
-                }
-            }).mount('#vue-app')
-        </script>
 </x-app-layout>

@@ -1,24 +1,23 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\User\Submissions;
 
 use Livewire\Component;
 use App\Models\Submission;
 use Illuminate\Support\Facades\Auth;
 
-class Dashboard extends Component
+class StepIndicator extends Component
 {
     public $userSubmission = [];
 
     public function mount() {
+
         $this->userSubmission = Submission::where('user_id', Auth::user()->id)->first();
 
     }
-
+    
     public function render()
     {
-        return view('livewire.dashboard', [
-            'userSubmission'    => $this->userSubmission,
-        ]);
+        return view('livewire.user.submissions.step-indicator');
     }
 }
